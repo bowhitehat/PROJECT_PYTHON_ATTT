@@ -28,21 +28,35 @@ class SecurityView(tk.Frame):
         header.pack(fill="x")
         header.pack_propagate(False)
 
+        # 🔙 BACK BUTTON – GÓC TRÊN BÊN TRÁI (RÕ – DỄ THẤY)
+        tk.Button(
+            header,
+            text="⬅ Quay lại",
+            font=("Arial", 12, "bold"),
+            bg="#e74c3c",
+            fg="white",
+            bd=0,
+            command=lambda: self.controller.show_frame("HomeView")
+        ).pack(side="left", padx=10)
+
+        # Logo FIT
         logo_path = os.path.join("views", "assets", "logo_fit.png")
         if os.path.exists(logo_path):
             img = Image.open(logo_path).resize((50, 50))
             self.logo = ImageTk.PhotoImage(img)
-            tk.Label(header, image=self.logo, bg="#1e2a4a").pack(side="left", padx=15)
+            tk.Label(header, image=self.logo, bg="#1e2a4a").pack(side="left", padx=10)
 
         tk.Label(
-            header, text="QUẢN LÝ SỰ CỐ MẤT TÀI KHOẢN",
-            fg="white", bg="#1e2a4a",
+            header,
+            text="QUẢN LÝ SỰ CỐ MẤT TÀI KHOẢN",
+            fg="white",
+            bg="#1e2a4a",
             font=("Arial", 20, "bold")
-        ).pack(side="left")
+        ).pack(side="left", padx=10)
 
         # ===== FILTER =====
         filter_frame = tk.Frame(self)
-        filter_frame.pack(pady=5)
+        filter_frame.pack(pady=8)
 
         tk.Label(filter_frame, text="Lọc theo mức độ an toàn:").pack(side="left", padx=5)
         self.filter_var = tk.StringVar(value="All")
@@ -51,7 +65,8 @@ class SecurityView(tk.Frame):
             filter_frame,
             textvariable=self.filter_var,
             values=["All", "Low", "Medium", "High"],
-            width=10
+            width=10,
+            state="readonly"
         ).pack(side="left")
 
         tk.Button(filter_frame, text="Lọc", command=self.apply_filter).pack(side="left", padx=5)
@@ -79,7 +94,6 @@ class SecurityView(tk.Frame):
         tk.Button(btn_frame, text="Cập nhật", command=self.update_row).pack(side="left", padx=5)
         tk.Button(btn_frame, text="Xóa dòng", command=self.delete_row).pack(side="left", padx=5)
         tk.Button(btn_frame, text="Làm sạch dữ liệu", command=self.clean_data).pack(side="left", padx=5)
-        tk.Button(btn_frame, text="Quay lại", command=lambda: self.controller.show_frame("HomeView")).pack(side="left", padx=5)
 
     # ================= DATA =================
     def load_data(self):
@@ -99,7 +113,9 @@ class SecurityView(tk.Frame):
         if level == "All":
             self.refresh_table(self.df)
         else:
-            self.refresh_table(self.df[self.df["security_level"].str.lower() == level.lower()])
+            self.refresh_table(
+                self.df[self.df["security_level"].str.lower() == level.lower()]
+            )
 
     # ================= CRUD =================
     def add_row(self):
@@ -161,4 +177,8 @@ class SecurityView(tk.Frame):
             self.refresh_table(self.df)
             win.destroy()
 
-        tk.Button(win, text="Lưu", command=save).grid(row=len(COLUMNS), column=0, columnspan=2, pady=10)
+        tk.Button(
+            win, text="Lưu",
+            bg="#27ae60", fg="white",
+            command=save
+        ).grid(row=len(COLUMNS), column=0, columnspan=2, pady=10)
