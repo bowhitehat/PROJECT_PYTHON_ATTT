@@ -1,26 +1,55 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+import sys
 import os
 
-os.makedirs("images", exist_ok=True)
+# thêm root project vào PYTHONPATH
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-age = pd.read_csv("data/age_statistics.csv")
-plt.bar(age['age_range'], age['count'])
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.savefig("images/age_chart.png")
-plt.close()
+import pandas as pd
+import matplotlib.pyplot as plt
 
-privacy = pd.read_csv("data/privacy_statistics.csv")
-plt.pie(privacy['count'], labels=privacy['privacy_concern'], autopct="%1.1f%%")
-plt.savefig("images/privacy_chart.png")
-plt.close()
+# ===== CONSTANTS =====
+IMAGE_DIR = "images"
+os.makedirs(IMAGE_DIR, exist_ok=True)   # 🔥 tự tạo thư mục images nếu chưa có
 
-device = pd.read_csv("data/device_statistics.csv")
-plt.bar(device['device'], device['count'])
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.savefig("images/device_chart.png")
-plt.close()
+def plot_csv(path, title, xlabel, output_name, show=False):
+    df = pd.read_csv(path)
 
-print("✅ Charts created")
+    plt.figure(figsize=(9,5))
+    plt.bar(df.iloc[:, 0], df.iloc[:, 1])
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel("Count")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    output_path = os.path.join(IMAGE_DIR, output_name)
+    plt.savefig(output_path)   # ✅ LƯU FILE
+    print(f"✅ Saved chart: {output_path}")
+
+    if show:
+        plt.show()
+    else:
+        plt.close()
+
+# ===== RUN =====
+if __name__ == "__main__":
+    plot_csv(
+        "data/loss_reason_statistics.csv",
+        "Loss Reason Distribution",
+        "Loss Reason",
+        "loss_reason_chart.png"
+    )
+
+    plot_csv(
+        "data/device_statistics.csv",
+        "Device Usage",
+        "Device",
+        "device_chart.png"
+    )
+
+    plot_csv(
+        "data/security_level_statistics.csv",
+        "Security Level",
+        "Security Level",
+        "security_level_chart.png"
+    )
