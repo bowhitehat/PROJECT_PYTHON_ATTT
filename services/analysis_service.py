@@ -1,10 +1,13 @@
-import os
-
-def run_cleaning():
-    os.system("python modules/data_cleaning.py")
+from modules.account_analysis import save_analysis_results
 
 def run_analysis():
-    os.system("python modules/account_analysis.py")
+    """
+    Run analysis and return analysis results
+    """
+    age_stats, device_stats, privacy_stats = save_analysis_results()
 
-def run_visualization():
-    os.system("python modules/data_visualization.py")
+    return {
+        "age": age_stats,
+        "device": device_stats,
+        "privacy": privacy_stats
+    }
