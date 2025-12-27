@@ -1,55 +1,96 @@
-import sys
-import os
-
-# thêm root project vào PYTHONPATH
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
-# ===== CONSTANTS =====
-IMAGE_DIR = "images"
-os.makedirs(IMAGE_DIR, exist_ok=True)   # 🔥 tự tạo thư mục images nếu chưa có
+# ================== CẤU HÌNH CHUNG ==================
+plt.rcParams['font.family'] = 'DejaVu Sans'   # Hỗ trợ tiếng Việt
+plt.rcParams['axes.unicode_minus'] = False   # Fix lỗi dấu âm
 
-def plot_csv(path, title, xlabel, output_name, show=False):
-    df = pd.read_csv(path)
+IMG_DIR = "images"
+os.makedirs(IMG_DIR, exist_ok=True)
 
-    plt.figure(figsize=(9,5))
-    plt.bar(df.iloc[:, 0], df.iloc[:, 1])
-    plt.title(title)
-    plt.xlabel(xlabel)
-    plt.ylabel("Count")
-    plt.xticks(rotation=45)
+df = pd.read_csv("data/data_clean.csv")
+
+# ================== BIỂU ĐỒ ==================
+
+def plot_age_distribution():
+    plt.figure(figsize=(8, 5))
+    df['age_range'].value_counts().plot(kind='bar')
+    plt.title("Phân bố độ tuổi")
+    plt.xlabel("Độ tuổi")
+    plt.ylabel("Số lượng")
+    plt.xticks(rotation=0)
     plt.tight_layout()
+    plt.savefig(f"{IMG_DIR}/age_distribution.png")
+    plt.close()
 
-    output_path = os.path.join(IMAGE_DIR, output_name)
-    plt.savefig(output_path)   # ✅ LƯU FILE
-    print(f"✅ Saved chart: {output_path}")
 
-    if show:
-        plt.show()
-    else:
-        plt.close()
+def plot_gender_ratio():
+    plt.figure(figsize=(6, 6))
+    df['gender'].value_counts().plot(
+        kind='pie',
+        autopct='%1.1f%%',
+        startangle=90
+    )
+    plt.title("Tỉ lệ Nam / Nữ")
+    plt.ylabel("")
+    plt.tight_layout()
+    plt.savefig(f"{IMG_DIR}/gender_ratio.png")
+    plt.close()
 
-# ===== RUN =====
+
+def plot_device_usage():
+    plt.figure(figsize=(9, 5))
+    df['device'].str.split(', ').explode().value_counts().plot(kind='bar')
+    plt.title("Thiết bị sử dụng")
+    plt.xlabel("Thiết bị")
+    plt.ylabel("Số lượng")
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.savefig(f"{IMG_DIR}/device_usage.png")
+    plt.close()
+
+
+def plot_security_level():
+    plt.figure(figsize=(7, 5))
+    df['security_level'].value_counts().plot(kind='bar')
+    plt.title("Mức độ an toàn")
+    plt.xlabel("Security level")
+    plt.ylabel("Số lượng")
+    plt.xticks(rotation=0)
+    plt.tight_layout()
+    plt.savefig(f"{IMG_DIR}/security_level.png")
+    plt.close()
+
+def plot_loss_reason():
+    data = df.copy()
+
+    # Chuẩn hóa dữ liệu
+    data["loss_reason"] = data["loss_reason"].fillna("unknown").str.lower()
+
+    counts = data["loss_reason"].value_counts()
+
+    plt.figure(figsize=(6, 6))
+    plt.pie(
+        counts.values,
+        labels=counts.index,
+        autopct="%1.1f%%",
+        startangle=140
+    )
+    plt.title("Tỉ lệ nguyên nhân mất tài khoản")
+
+    plt.tight_layout()
+    plt.savefig(f"{IMG_DIR}/loss_reason.png")
+    plt.close()
+
+
+
+# ================== CHẠY TẤT CẢ ==================
+
 if __name__ == "__main__":
-    plot_csv(
-        "data/loss_reason_statistics.csv",
-        "Loss Reason Distribution",
-        "Loss Reason",
-        "loss_reason_chart.png"
-    )
-
-    plot_csv(
-        "data/device_statistics.csv",
-        "Device Usage",
-        "Device",
-        "device_chart.png"
-    )
-
-    plot_csv(
-        "data/security_level_statistics.csv",
-        "Security Level",
-        "Security Level",
-        "security_level_chart.png"
-    )
+    plot_age_distribution()
+    plot_gender_ratio()
+    plot_device_usage()
+    plot_security_level()
+    plot_loss_reason()
+    print("✅ Đã tạo toàn bộ biểu đồ")
