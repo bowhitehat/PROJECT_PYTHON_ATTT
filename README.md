@@ -131,10 +131,6 @@ pip install pillow
 
 #### Bước 3: Chạy chương trình
 
-```bash
-python main.py
-```
-
 ---
 
 ## 🖥️ CÁCH SỬ DỤNG ỨNG DỤNG
@@ -186,4 +182,7 @@ python modules/data_visualization.py
    [https://github.com/bowhitehat/PROJECT_PYTHON_ATTT](https://github.com/bowhitehat/PROJECT_PYTHON_ATTT)
 
 ---
+
+```bash
+python main.py
 
