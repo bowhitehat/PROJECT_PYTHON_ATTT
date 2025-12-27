@@ -4,7 +4,7 @@ import os
 
 USER_FILE = "users.json"
 
-# ---------- LOAD / SAVE ----------
+
 def load_users():
     if not os.path.exists(USER_FILE):
         return {}
@@ -15,19 +15,22 @@ def load_users():
             return {}
         return json.loads(content)
 
+
 def save_users(users):
     with open(USER_FILE, "w", encoding="utf-8") as f:
         json.dump(users, f, indent=2)
 
-# ---------- PASSWORD ----------
+
 def hash_password(password):
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
 
 def check_password(password, hashed):
-    return bcrypt.checkpw(password.encode("utf-8"), hashed.encode("utf-8"))
+    return bcrypt.checkpw(password.encode(), hashed.encode())
 
-# ---------- REGISTER ----------
-def register(username, password, role="user"):
+
+# ========== REGISTER ==========
+def register(username, password):
     users = load_users()
 
     if username in users:
@@ -35,22 +38,19 @@ def register(username, password, role="user"):
 
     users[username] = {
         "password": hash_password(password),
-        "role": role
+        "role": "user"
     }
 
     save_users(users)
     return True
 
-# ---------- LOGIN ----------
+
+# ========== LOGIN ==========
 def login(username, password):
     users = load_users()
 
-    print("DEBUG users:", users)
-    print("DEBUG username:", username)
-
     if username in users:
-        stored_hash = users[username]["password"]
-        if check_password(password, stored_hash):
+        if check_password(password, users[username]["password"]):
             return users[username]["role"]
 
     return None

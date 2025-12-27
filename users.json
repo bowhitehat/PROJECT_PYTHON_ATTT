@@ -1,6 +1,14 @@
 {
-  "admin": {
-    "password": "$2b$12$Z4pP4n9QzZB7j9pJ0N0X6eH0kz7o8H7WzR8q6Z6QKQFv0fY1Z6u7a",
-    "role": "admin"
+  "hoang": {
+    "password": "$2b$12$ivhG4WP.PJNXjolDj9xrO.upbE9s53fyGpEldTp4sy74WVlfh0ooG",
+    "role": "user"
+  },
+  "khang": {
+    "password": "$2b$12$mP0DgE8Y.KCuSO.cBOv66OsJcitmVe4ubleqH.PopWIC1it1vFbhy",
+    "role": "user"
+  },
+  "kha": {
+    "password": "$2b$12$jY7qd0iR1gyRxkmzbIvSKe1gXqwYgktCIsMx54xE7jGLTqNZZLpQO",
+    "role": "user"
   }
 }
