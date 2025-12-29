@@ -33,6 +33,7 @@
   * Code chức năng trực quan hóa dữ liệu
   * Vẽ biểu đồ (Bar chart, Pie chart, Histogram)
   * Phân tích dữ liệu và thống nhất format dữ liệu
+  * Làm bài báo cáocáo
 
 ### 🔹 Thành viên 4
 
@@ -43,6 +44,7 @@
   * Hỗ trợ kiểm thử (Testing)
   * Kiểm tra chức năng CRUD & Visualization
   * Hoàn thiện báo cáo và tài liệu
+  * Làm slide thuyết trình
 
 ---
 
