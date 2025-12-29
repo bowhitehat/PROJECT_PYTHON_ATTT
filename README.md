@@ -33,7 +33,8 @@
   * Code chức năng trực quan hóa dữ liệu
   * Vẽ biểu đồ (Bar chart, Pie chart, Histogram)
   * Phân tích dữ liệu và thống nhất format dữ liệu
-  * Làm bài báo cáocáo
+  * Làm bài báo cáo
+
 
 ### 🔹 Thành viên 4
 
