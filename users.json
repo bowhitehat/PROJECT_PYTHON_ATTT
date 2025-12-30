@@ -10,5 +10,9 @@
   "kha": {
     "password": "$2b$12$jY7qd0iR1gyRxkmzbIvSKe1gXqwYgktCIsMx54xE7jGLTqNZZLpQO",
     "role": "user"
+  },
+  "khangbe": {
+    "password": "$2b$12$ORc74LiGDJ6s.gpKRjhRA.h3/F747JVSCALfJ09qFkYmi2SDdz1iO",
+    "role": "user"
   }
 }
